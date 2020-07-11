@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "306670257635",
+    "firebase_url": "https://health-app-6098c.firebaseio.com",
+    "project_id": "health-app-6098c",
+    "storage_bucket": "health-app-6098c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306670257635:android:ae46f3a3c8f963280b4cd6",
+        "android_client_info": {
+          "package_name": "com.example.food_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306670257635-hu9ckq92jg9hcdk6riuki9ab41210jij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9eLX07iy-wCSwTyI9LXbwqLAFEjWjyCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306670257635-hu9ckq92jg9hcdk6riuki9ab41210jij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
