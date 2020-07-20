@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/screens/authenticate/password_reset.dart';
+import 'package:food_app/screens/authenticate/register.dart';
 import 'package:food_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
+
+  final Function toggleView;
+  SignIn({ this.toggleView });
+
   @override
   _SignInState createState() => _SignInState();
 }
@@ -9,13 +15,24 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   String email = '';
   String password = '';
 
+  bool _showPassword = false;
+
+  void _toggleVisibility() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: <Widget>[
           _showForm(),
@@ -27,6 +44,7 @@ class _SignInState extends State<SignIn> {
     return new Container(
         padding: EdgeInsets.all(16.0),
         child: new Form(
+          key: _formKey,
           child: new ListView(
             shrinkWrap: true,
             children: <Widget>[
@@ -34,7 +52,9 @@ class _SignInState extends State<SignIn> {
               showTitle(),
               showEmailInput(),
               showPasswordInput(),
+              showForgotPassword(),
               showSignInButton(),
+              showSignUpButton(),
             ],
           ),
         ));
@@ -44,10 +64,10 @@ class _SignInState extends State<SignIn> {
     return new Hero(
       tag: 'hero',
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+        padding: EdgeInsets.fromLTRB(0.0, 120.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 60.0,
+          radius: 65.0,
           child: Image.asset('images/ColourCarrotTransp.png'),
         ),
       ),
@@ -65,29 +85,53 @@ class _SignInState extends State<SignIn> {
               fontWeight: FontWeight.w900,
               fontStyle: FontStyle.italic,
               fontFamily: 'Open Sans',
-              fontSize: 30),
+              fontSize: 40),
           )
         )
     );
   }
 
+  Widget showForgotPassword() {
+    return Container(
+      alignment: Alignment(1.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: FlatButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PasswordReset()));
+        },
+        child: Text('Forgot Password',
+          style: TextStyle(
+            color: Colors.green,
+          ),
+        ),
+      )
+    );
+  }
+
   Widget showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
-      child: new TextFormField(
-        maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Email',
-            icon: new Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
-        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
-        onChanged: (value) {
-          setState(() => email = value);
-        }
+      padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
+      child: Container(
+        child: new TextFormField(
+          maxLines: 1,
+          keyboardType: TextInputType.emailAddress,
+          autofocus: false,
+          decoration: new InputDecoration(
+            fillColor: Colors.black12.withOpacity(0.07),
+            filled: true,
+            border: new OutlineInputBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
+              prefixIcon: new Icon(Icons.email),
+              hintText: 'Email',
+          ),
+          validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+          onChanged: (value) {
+            setState(() => email = value);
+          }
+        ),
       ),
     );
   }
@@ -97,14 +141,24 @@ class _SignInState extends State<SignIn> {
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextFormField(
         maxLines: 1,
-        obscureText: true,
+        obscureText: !_showPassword,
         autofocus: false,
         decoration: new InputDecoration(
+            fillColor: Colors.black12.withOpacity(0.07),
+            filled: true,
+            border: new OutlineInputBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
             hintText: 'Password',
-            icon: new Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
+            prefixIcon: new Icon(Icons.lock),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                _toggleVisibility();
+              },
+              child: Icon(
+                _showPassword ? Icons.visibility : Icons.visibility_off,),
+              )),
         validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
         onChanged: (value) {
           setState(() => password = value);
@@ -115,7 +169,7 @@ class _SignInState extends State<SignIn> {
 
   Widget showSignInButton() {
     return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: SizedBox(
         height: 40.0,
         child: new RaisedButton(
@@ -126,10 +180,43 @@ class _SignInState extends State<SignIn> {
             child: new Text('Sign in',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () async {
-            print(email);
-            print(password);
+            if (_formKey.currentState.validate()){
+              dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+              if (result == null) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context){
+                      return AlertDialog(
+                        title: Text('Error'),
+                        content: Text('Email and password combination not recognised.'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Close'),
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    }
+                );
+              }
+            }
           },
         ),
+      ),
+    );
+  }
+
+  Widget showSignUpButton() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: new FlatButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+        },
+        child: Text('Don\'t have an account? Sign Up',
+        style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
       ),
     );
   }
