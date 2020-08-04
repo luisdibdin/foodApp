@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/authenticate/sign_in.dart';
 import 'package:food_app/services/auth.dart';
+import 'package:food_app/services/database.dart';
 
 class Register extends StatefulWidget {
 
@@ -23,6 +24,9 @@ class _RegisterState extends State<Register> {
   String passwordConfirmed = '';
 
   bool _showPassword = false;
+
+  List _genders = ['Male', 'Female', 'Other'];
+  String _genderVal;
 
   void _toggleVisibility() {
     setState(() {
@@ -50,6 +54,7 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               showTitle(),
               showUsernameInput(),
+              _showGenderSelector(),
               showEmailInput(),
               showPasswordInput(),
               showPasswordConfirmedInput(),
@@ -97,6 +102,40 @@ class _RegisterState extends State<Register> {
           onChanged: (value) {
             setState(() => username = value.trim());
           }
+      ),
+    );
+  }
+
+  Widget _showGenderSelector() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          fillColor: Colors.black12.withOpacity(0.07),
+          filled: true,
+          border: new OutlineInputBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+            borderSide:  BorderSide.none,
+          ),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton(
+            value: _genderVal,
+            isExpanded: true,
+            hint: Text('Select Gender'),
+            items: _genders.map((value) {
+              return DropdownMenuItem(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                _genderVal = value;
+              });
+            },
+          ),
+        ),
       ),
     );
   }
@@ -193,6 +232,8 @@ class _RegisterState extends State<Register> {
           onPressed: () async {
             if (_formKey.currentState.validate() && _passKey.currentState.validate()){
               dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+              await DatabaseService(uid: result.uid).newUserData(username, email, "Other");
+              Navigator.pop(context);
               if (result == null) {
                 showDialog(
                     context: context,

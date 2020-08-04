@@ -12,13 +12,11 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
+    return ListView(
         children: <Widget>[
           showSignOutButton(),
         ],
-      ),
-    );
+      );
   }
 
   Widget showSignOutButton() {

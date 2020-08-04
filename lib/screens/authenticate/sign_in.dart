@@ -173,7 +173,6 @@ class _SignInState extends State<SignIn> {
       child: SizedBox(
         height: 40.0,
         child: new RaisedButton(
-          elevation: 5.0,
           shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(30.0)),
             color: Colors.green,

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/models/user.dart';
+import 'package:food_app/services/database.dart';
 
 class AuthService {
 
@@ -34,6 +35,8 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+
+      // create a new user document in database
       return _userFromFirebaseUser(user);
     } catch(e) {
       print(e.toString());

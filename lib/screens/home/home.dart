@@ -1,94 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/home/Pages/profile.dart';
+import 'package:food_app/screens/home/Pages/scan.dart';
+import 'package:food_app/screens/home/Pages/track.dart';
+import 'package:food_app/services/bottom_app_bar.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
+class _HomeState extends State<Home> with TickerProviderStateMixin {
 
-  int _currentIndex = 0;
-  PageController _c;
+  final Scan _scan = Scan();
 
-  @override
-  void initState() {
-    _c = new PageController(
-      initialPage: _currentIndex,
-        viewportFraction: 0.8
-    );
-    super.initState();
+  PageController _myPage = PageController(initialPage: 0);
+  String textResult = 'Hi there';
+
+  int _lastSelected = 0;
+
+  void _selectedTab(int index) {
+    setState(() {
+      _myPage.jumpToPage(index);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Diet Tracker'),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (currentIndex) {
-            this._c.animateToPage(currentIndex, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-        },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.book),
-            title: new Text('Track'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.assessment),
-            title: new Text('Targets',)
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
-            title: new Text('Profile'),
-          ),
-        ]
-      ),
-      body: new PageView(
-        controller: _c,
-        onPageChanged: (newPage){
-          setState(() {
-            this._currentIndex = newPage;
-          });
-        },
-        children: <Widget>[
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Icon(Icons.home),
-                new Text("Home")
-              ],
+        appBar: AppBar(
+          title: Text('Diet Tracker'),
+        ),
+        body: PageView(
+          physics: new NeverScrollableScrollPhysics(),
+          controller: _myPage,
+          onPageChanged: (newPage){
+            _selectedTab(newPage);
+          },
+          children: <Widget>[
+            Center(
+              child: Container(
+                child: Text(textResult),
+              ),
             ),
-          ),
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Icon(Icons.supervised_user_circle),
-                new Text("Users")
-              ],
+            Center(
+              child: Container(
+                child: Text('Empty Body 1'),
+              ),
             ),
-          ),
-          new Center(
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Icon(Icons.notifications),
-                new Text("Alerts")
-              ],
+            Center(
+              child: Container(
+                child: Text('Empty Body 2'),
+              ),
             ),
-          ),
-          Profile(),
-        ],
-      ),
+            Profile(),
+          ],
+        ),
+        bottomNavigationBar: FABBottomAppBar(
+          color: Colors.grey,
+          selectedColor: Colors.red,
+          notchedShape: CircularNotchedRectangle(),
+          onTabSelected: _selectedTab,
+          items: [
+            FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
+            FABBottomAppBarItem(iconData: Icons.book, text: 'Track'),
+            FABBottomAppBarItem(iconData: Icons.insert_chart, text: 'Ranking'),
+            FABBottomAppBarItem(iconData: Icons.account_box, text: 'Profile'),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: new FloatingActionButton(
+          onPressed: () async {
+            dynamic result = await _scan.barcodeScan();
+            setState(() {
+              textResult = result;
+            });
+          },
+          tooltip: 'Add',
+          child: Icon(Icons.add),
+          elevation: 2.0,
+        ) // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
