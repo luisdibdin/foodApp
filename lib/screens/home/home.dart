@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/home/Pages/profile.dart';
-import 'package:food_app/screens/home/Pages/scan.dart';
+import 'package:food_app/services/scan.dart';
 import 'package:food_app/screens/home/Pages/track.dart';
 import 'package:food_app/services/bottom_app_bar.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';

@@ -129,7 +129,7 @@ class _SignInState extends State<SignIn> {
           ),
           validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
           onChanged: (value) {
-            setState(() => email = value);
+            setState(() => email = value.trim());
           }
         ),
       ),

@@ -25,9 +25,6 @@ class _RegisterState extends State<Register> {
 
   bool _showPassword = false;
 
-  List _genders = ['Male', 'Female', 'Other'];
-  String _genderVal;
-
   void _toggleVisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -54,7 +51,6 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               showTitle(),
               showUsernameInput(),
-              _showGenderSelector(),
               showEmailInput(),
               showPasswordInput(),
               showPasswordConfirmedInput(),
@@ -102,40 +98,6 @@ class _RegisterState extends State<Register> {
           onChanged: (value) {
             setState(() => username = value.trim());
           }
-      ),
-    );
-  }
-
-  Widget _showGenderSelector() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          fillColor: Colors.black12.withOpacity(0.07),
-          filled: true,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(10.0),
-            borderSide:  BorderSide.none,
-          ),
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton(
-            value: _genderVal,
-            isExpanded: true,
-            hint: Text('Select Gender'),
-            items: _genders.map((value) {
-              return DropdownMenuItem(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _genderVal = value;
-              });
-            },
-          ),
-        ),
       ),
     );
   }
