@@ -64,7 +64,7 @@ class _SignInState extends State<SignIn> {
     return new Hero(
       tag: 'hero',
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 120.0, 0.0, 0.0),
+        padding: EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 65.0,
@@ -102,7 +102,7 @@ class _SignInState extends State<SignIn> {
         },
         child: Text('Forgot Password',
           style: TextStyle(
-            color: Colors.green,
+            color: Color.fromRGBO(50, 196, 180, 1),
           ),
         ),
       )
@@ -138,7 +138,7 @@ class _SignInState extends State<SignIn> {
 
   Widget showPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
         maxLines: 1,
         obscureText: !_showPassword,
@@ -173,10 +173,11 @@ class _SignInState extends State<SignIn> {
       child: SizedBox(
         height: 40.0,
         child: new RaisedButton(
+          elevation: 0.0,
           shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.green,
-            child: new Text('Sign in',
+            borderRadius: new BorderRadius.circular(10.0)),
+            color: Color.fromRGBO(245, 140, 78, 1),
+            child: new Text('sign in',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () async {
             if (_formKey.currentState.validate()){
