@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/home/Pages/calorie_stats.dart';
+import 'package:food_app/screens/home/Pages/edit_item.dart';
 import 'package:food_app/services/scan.dart';
 
 class ScanTile extends StatelessWidget {
@@ -24,7 +25,7 @@ class ScanTile extends StatelessWidget {
           )),
           subtitle: _macroData(),
           children: <Widget>[
-            _expandedView(),
+            _expandedView(context),
           ],
         );
   }
@@ -129,13 +130,13 @@ class ScanTile extends StatelessWidget {
     );
   }
 
-  Widget _expandedView() {
+  Widget _expandedView(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(20.0, 0.0, 15.0, 0.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _expandedHeader(),
+          expandedHeader(context),
           _expandedCalories(),
           _expandedCarbs(),
           _expandedProtein(),
@@ -145,7 +146,7 @@ class ScanTile extends StatelessWidget {
     );
   }
 
-  Widget _expandedHeader() {
+  Widget expandedHeader(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -160,6 +161,12 @@ class ScanTile extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.edit),
           iconSize: 16,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditItem(scan: scan)),
+            );
+          }
         )
       ],
     );

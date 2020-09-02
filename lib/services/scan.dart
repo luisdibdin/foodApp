@@ -11,6 +11,7 @@ class Scan {
   var barcode;
   static Product foodItem;
   String productName;
+  String productID;
   double productCalories;
   double productCarbs;
   double productFat;
@@ -20,7 +21,7 @@ class Scan {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Scan({this.productName, this.productCalories, this.productCarbs, this.productFat, this.productProtein, this.dateTime, this.grams});
+  Scan({this.productID, this.productName, this.productCalories, this.productCarbs, this.productFat, this.productProtein, this.dateTime, this.grams});
 
   Future barcodeScan() async {
     ScanResult scanResult = await BarcodeScanner.scan();

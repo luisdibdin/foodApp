@@ -32,9 +32,23 @@ class DatabaseService {
     });
   }
 
+  Future updateScanData(String productID, double calories, double carbs, double fat, double protein) async {
+    return await scanCollection.document(uid).collection('scans').document(productID).updateData({
+      'calories': calories,
+      'carbohydrates': carbs,
+      'fat': fat,
+      'protein': protein,
+    });
+  }
+
+  Future<void> deleteScan(String productID) async {
+    await scanCollection.document(uid).collection('scans').document(productID).delete();
+  }
+
   List<Scan> _scanListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc){
       return Scan(
+        productID: doc.documentID,
         productName: doc.data['food_name'] ?? '',
         productCalories: doc.data['calories'] ?? 0,
         productCarbs: doc.data['carbohydrates'] ?? 0,

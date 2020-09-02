@@ -7,6 +7,7 @@ import 'package:fl_chart/fl_chart.dart';
 class CalorieStats extends StatelessWidget {
 
   DateTime datePicked;
+  DateTime today = DateTime.now();
   CalorieStats({this.datePicked});
 
   double totalCalories = 0;
@@ -14,6 +15,16 @@ class CalorieStats extends StatelessWidget {
   double totalFat = 0;
   double totalProtein = 0;
   double displayCalories = 0;
+
+  bool dateCheck() {
+    DateTime formatPicked = DateTime(datePicked.year, datePicked.month, datePicked.day);
+    DateTime formatToday = DateTime(today.year, today.month, today.day);
+    if (formatPicked.compareTo(formatToday) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   static List<double> macroData = [];
 
@@ -185,9 +196,29 @@ class CalorieStats extends StatelessWidget {
     print(totalFat);
 
     if (curScans.length == 0) {
-      return Container(
-        child: Text('Add food to see calorie breakdown.'),
-      );
+      if (dateCheck()) {
+        return Flexible(
+          fit: FlexFit.loose,
+          child: Text('Add food to see calorie breakdown.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 40.0,
+                fontWeight: FontWeight.w500,
+              )
+          ),
+        );
+      } else {
+        return Flexible(
+          fit: FlexFit.loose,
+          child: Text('No food added on this day.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 40.0,
+                fontWeight: FontWeight.w500,
+              )
+          ),
+        );
+      }
     } else {
       return Container(
         child: Row(
