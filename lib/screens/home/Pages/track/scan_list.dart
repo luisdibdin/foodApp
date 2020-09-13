@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/screens/home/scan_tile.dart';
+import 'package:food_app/screens/home/Pages/track/scan_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:food_app/services/scan.dart';
 
@@ -37,7 +37,7 @@ class ScanList extends StatelessWidget {
         if (index < curScans.length) {
           return ScanTile(scan: curScans[index]);
         } else {
-          return SizedBox(height: 35);
+          return SizedBox(height: 5);
         }
         },
     );

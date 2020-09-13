@@ -1,21 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:food_app/models/user.dart';
-import 'package:food_app/services/database.dart';
+import 'package:food_app/models/user_model.dart';
 
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  AuthService();
+
   // create user object based on FirebaseUser.
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+  UserModel _userFromFirebaseUser(FirebaseUser user) {
+    return user != null ? UserModel(uid: user.uid) : null;
   }
 
   // auth change user stream
-  Stream<User> get user {
+  Stream<UserModel> get user {
     return _auth.onAuthStateChanged
         .map(_userFromFirebaseUser);
 
+  }
+
+  Future<UserModel> getUser() async {
+    FirebaseUser user = await _auth.currentUser();
+    return _userFromFirebaseUser(user);
   }
 
   // sign in with email and password
@@ -35,7 +41,6 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-
       // create a new user document in database
       return _userFromFirebaseUser(user);
     } catch(e) {

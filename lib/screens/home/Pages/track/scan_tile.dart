@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/screens/home/Pages/calorie_stats.dart';
-import 'package:food_app/screens/home/Pages/edit_item.dart';
+import 'package:food_app/screens/home/Pages/track/calorie_stats.dart';
+import 'package:food_app/screens/home/Pages/track/edit_item.dart';
 import 'package:food_app/services/scan.dart';
 
 class ScanTile extends StatelessWidget {

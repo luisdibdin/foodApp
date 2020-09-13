@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,20 +30,19 @@ class Scan {
 
   Future storeProduct(Product foodItem, double servingSize, String servingType) async {
     productName = foodItem.productName;
-    print(foodItem.environmentImpactLevels);
     double servingSizeGrams = servingSize/100;
     if (servingType == 'grams') {
-      productCalories = foodItem.nutriments.energyKcal100g * servingSizeGrams;
-      productCarbs = foodItem.nutriments.carbohydrates * servingSizeGrams;
-      productFat = foodItem.nutriments.fat * servingSizeGrams;
-      productProtein = foodItem.nutriments.proteins * servingSizeGrams;
+      productCalories = foodItem.nutriments.energyKcal100g == null ? 0 : foodItem.nutriments.energyKcal100g * servingSizeGrams;
+      productCarbs = foodItem.nutriments.carbohydrates == null ? 0 : foodItem.nutriments.carbohydrates * servingSizeGrams;
+      productFat = foodItem.nutriments.fat == null ? 0 : foodItem.nutriments.fat * servingSizeGrams;
+      productProtein = foodItem.nutriments.proteins == null? 0 : foodItem.nutriments.proteins * servingSizeGrams;
       grams = servingSize;
     } else {
-      productCalories = foodItem.nutriments.energyKcal * servingSize;
-      productCarbs = foodItem.nutriments.carbohydratesServing * servingSize;
-      productFat = foodItem.nutriments.fatServing * servingSize;
-      productProtein = foodItem.nutriments.proteinsServing * servingSize;
-      grams = servingSize * foodItem.servingQuantity;
+      productCalories = foodItem.nutriments.energyKcal == null ? 0 : foodItem.nutriments.energyKcal * servingSize;
+      productCarbs = foodItem.nutriments.carbohydratesServing == null ? 0 : foodItem.nutriments.carbohydratesServing * servingSize;
+      productFat = foodItem.nutriments.fatServing == null ? 0 : foodItem.nutriments.fatServing * servingSize;
+      productProtein = foodItem.nutriments.proteinsServing == null ? 0 : foodItem.nutriments.proteinsServing * servingSize;
+      grams = foodItem.servingQuantity == null ? servingSize : servingSize * foodItem.servingQuantity;
     }
     final FirebaseUser user = await _auth.currentUser();
     await DatabaseService(uid: user.uid).newScanData(productName, productCalories, productCarbs, productFat, productProtein, grams);

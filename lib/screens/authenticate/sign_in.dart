@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/locator.dart';
 import 'package:food_app/screens/authenticate/password_reset.dart';
 import 'package:food_app/screens/authenticate/register.dart';
 import 'package:food_app/services/auth.dart';
+import 'package:food_app/services/user_controller.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -181,7 +183,7 @@ class _SignInState extends State<SignIn> {
                 style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () async {
             if (_formKey.currentState.validate()){
-              dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+              dynamic result = await locator.get<UserController>().signInWithEmailAndPassword(email, password);
               if (result == null) {
                 showDialog(
                     context: context,

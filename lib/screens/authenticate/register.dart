@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/screens/authenticate/sign_in.dart';
+import 'package:food_app/locator.dart';
 import 'package:food_app/services/auth.dart';
 import 'package:food_app/services/database.dart';
+import 'package:food_app/services/user_controller.dart';
 
 class Register extends StatefulWidget {
 
@@ -24,12 +25,6 @@ class _RegisterState extends State<Register> {
   String passwordConfirmed = '';
 
   bool _showPassword = false;
-
-  void _toggleVisibility() {
-    setState(() {
-      _showPassword = !_showPassword;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,9 +188,7 @@ class _RegisterState extends State<Register> {
               style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () async {
             if (_formKey.currentState.validate() && _passKey.currentState.validate()){
-              dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-              await DatabaseService(uid: result.uid).newUserData(username, email, "Other");
-              Navigator.pop(context);
+              dynamic result = await locator.get<UserController>().registerWithEmailAndPassword(email, password, username);
               if (result == null) {
                 showDialog(
                     context: context,
