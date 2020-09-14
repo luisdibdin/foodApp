@@ -120,7 +120,7 @@ class DatabaseService {
   }
 
   Future<DocumentSnapshot> getLatestWeek(String uid) async {
-    QuerySnapshot weekQuery = await scoreCollection.document(uid).collection('weekly_scores').orderBy('date').limit(1).getDocuments();
+    QuerySnapshot weekQuery = await scoreCollection.document(uid).collection('weekly_scores').orderBy('date', descending: true).limit(1).getDocuments();
     if (weekQuery.documents.length > 0) {
       DocumentSnapshot latestDocument = weekQuery.documents.first;
       return latestDocument;
@@ -131,7 +131,7 @@ class DatabaseService {
 
   Future<List<double>> getLastSixWeeks(String uid) async {
     List<double> percentageScores = [];
-    QuerySnapshot weekQuery = await scoreCollection.document(uid).collection('weekly_scores').orderBy('date').limit(6).getDocuments();
+    QuerySnapshot weekQuery = await scoreCollection.document(uid).collection('weekly_scores').orderBy('date', descending: true).limit(6).getDocuments();
     List<DocumentSnapshot> lastSixDocuments = weekQuery.documents.toList();
     for (DocumentSnapshot doc in lastSixDocuments) {
       int total;
@@ -147,12 +147,12 @@ class DatabaseService {
           percentageScores.add((score / total) * 100);
         }
       }
+    }
       if (percentageScores.length < 6) {
         for (int i = percentageScores.length; i != 6; i++) {
           percentageScores.add(0);
         }
       }
-    }
     return percentageScores;
   }
 

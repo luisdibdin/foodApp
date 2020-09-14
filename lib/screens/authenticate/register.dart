@@ -189,6 +189,7 @@ class _RegisterState extends State<Register> {
           onPressed: () async {
             if (_formKey.currentState.validate() && _passKey.currentState.validate()){
               dynamic result = await locator.get<UserController>().registerWithEmailAndPassword(email, password, username);
+              Navigator.pop(context);
               if (result == null) {
                 showDialog(
                     context: context,
