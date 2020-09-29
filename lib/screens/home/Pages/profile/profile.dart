@@ -108,7 +108,7 @@ class _ProfileState extends State<Profile> {
 
   Widget scoreBarChart() {
     return Padding(
-      padding: EdgeInsets.only(top: 5.0),
+      padding: EdgeInsets.only(top: 30.0),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

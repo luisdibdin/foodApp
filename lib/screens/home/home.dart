@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/locator.dart';
+import 'package:food_app/screens/home/Pages/leaderboards/ranking.dart';
 import 'package:food_app/screens/home/Pages/profile/profile.dart';
 import 'package:food_app/screens/home/Pages/track/track.dart';
 import 'package:food_app/services/user_controller.dart';
@@ -24,11 +25,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   final tabs = [
     Track(),
-    Center(
-      child: Container(
-        child: Text('Empty Body 2'),
-      ),
-    ),
+    Ranking(),
     Profile(),
   ];
 

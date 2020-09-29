@@ -10,6 +10,9 @@ class UserModel {
   UserModel({this.uid, this.username, this.avatarUrl, this.totalQuestions, this.score, this.weekTotal, this.weekScore});
 
   String calculateExpertiseTitle() {
+    if (score == null) {
+      return 'Naive';
+    }
     if (score > 1000) {
       return (calculateAccuracy() + ' Master');
     }

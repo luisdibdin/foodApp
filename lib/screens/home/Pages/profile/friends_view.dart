@@ -27,6 +27,14 @@ class _FriendViewState extends State<FriendView> {
         children: <Widget>[
           SizedBox(height: 30),
           backArrow(),
+          Center(
+            child: Column(
+              children: <Widget>[
+                Text('Your Code:'),
+                Text(user.uid),
+              ],
+            ),
+          ),
           addFriend(),
           friendsRequestButton(),
           Padding(
