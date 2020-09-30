@@ -1,16 +1,19 @@
-# food_app
+# Flutter Diet Tracker
 
-A new Flutter application.
+A mobile application used to count calories and learn about the contents of food items.
+Add friends and see how they are doing with live leader boards.
 
-## Getting Started
+Back-end built with Firebase.
 
-This project is a starting point for a Flutter application.
+## How to run
 
-A few resources to get you started if this is your first Flutter project:
+1. Set up Flutter
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+2. Clone to local
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+> $ git clone https://github.com/Dibbsters/foodApp
+> cd foodApp/
+
+3. Run the app
+
+> flutter run
