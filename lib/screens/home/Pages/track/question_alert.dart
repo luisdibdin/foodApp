@@ -7,7 +7,7 @@ import 'package:food_app/services/user_controller.dart';
 
 class QuestionAlert extends StatefulWidget {
 
-  final double value;
+  final List value;
   QuestionAlert({this.value});
 
   @override
@@ -31,8 +31,8 @@ class _QuestionAlertState extends State<QuestionAlert> {
   void initState() {
     super.initState();
     pressable = true;
-    _question = QuestionController(correctValue: widget.value);
-    choices = _question.getChoices(widget.value);
+    _question = QuestionController(correctValue: widget.value[0]);
+    choices = _question.getChoices(widget.value[0]);
   }
 
   void disableButton() {
@@ -45,7 +45,7 @@ class _QuestionAlertState extends State<QuestionAlert> {
   Widget build(BuildContext context) {
 
     return AlertDialog(
-      title: Text('How many calories are in this?'),
+      title: Text('How ' + widget.value[1] + ' in this?'),
       content: choiceBox(_question, choices),
     );
   }
@@ -62,7 +62,7 @@ class _QuestionAlertState extends State<QuestionAlert> {
               height: 70,
               width: 100,
               child: FlatButton(
-                child: Text(choices[0].toString()),
+                child: Text(choices[0].toString() + widget.value[2]),
                 color: colours[0],
                 onPressed: () {
                   pressable ? checker(choices[0], choices, question) : null;
@@ -73,7 +73,7 @@ class _QuestionAlertState extends State<QuestionAlert> {
               height: 70,
               width: 100,
               child: FlatButton(
-                child: Text(choices[1].toString()),
+                child: Text(choices[1].toString() + widget.value[2]),
                 color: colours[1],
                 onPressed: () {
                   pressable ? checker(choices[1], choices, question) : null;
@@ -93,7 +93,7 @@ class _QuestionAlertState extends State<QuestionAlert> {
               height: 70,
               width: 100,
               child: FlatButton(
-                child: Text(choices[2].toString()),
+                child: Text(choices[2].toString() + widget.value[2]),
                 color:  colours[2],
                 onPressed: () {
                   pressable ? checker(choices[2], choices, question) : null;
@@ -104,7 +104,7 @@ class _QuestionAlertState extends State<QuestionAlert> {
               height: 70,
               width: 100,
               child: FlatButton(
-                child: Text(choices[3].toString()),
+                child: Text(choices[3].toString() + widget.value[2]),
                 color: colours[3],
                 onPressed: () {
                   pressable ? checker(choices[3], choices, question) : null;

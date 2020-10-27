@@ -257,7 +257,7 @@ class _ProfileState extends State<Profile> {
 
   Widget userHeader() {
     return Container(
-      height: 250,
+      height: 280,
       decoration: BoxDecoration(
           color: Color(0xff01B4BC),
           border: Border(
@@ -271,7 +271,7 @@ class _ProfileState extends State<Profile> {
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 15.0, 15.0, 0.0),
+                padding: EdgeInsets.fromLTRB(0.0, 40.0, 15.0, 0.0),
                 child: editButton()),
           ),
           profilePicture(),

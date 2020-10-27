@@ -30,14 +30,14 @@ class FriendLeaderBoard extends StatelessWidget {
       });
     List<UserModel> sortUsersWeekly(List<UserModel> friends) {
       friends.sort((a, b) =>
-          (a.weekScore / a.weekTotal).compareTo(b.weekScore / b.weekTotal));
+          ((a.weekScore ?? 0) / (a.weekTotal ?? 1)).compareTo((b.weekScore ?? 0)/ (b.weekTotal ?? 1)));
       List<UserModel> weeklySorted = friends;
       return weeklySorted;
     }
 
     List<UserModel> sortUsersAllTime(List<UserModel> friends) {
       friends.sort((a, b) =>
-          (a.score / a.totalQuestions).compareTo(b.score / b.totalQuestions));
+          ((a.score ?? 0)/ (a.totalQuestions ?? 1)).compareTo((b.score ?? 0)/ (b.totalQuestions ?? 1)));
       List<UserModel> allTimeSorted = friends;
       return allTimeSorted;
     }
@@ -65,6 +65,9 @@ class FriendLeaderBoard extends StatelessWidget {
           shrinkWrap: true,
           itemCount: friends.length + 1,
           itemBuilder: (context, index) {
+            if (friends.length == 0) {
+              return SizedBox(height: 5);
+            }
             if (index < friends.length) {
               return FriendRankTile(friend: allTimeSorted[index], tileType: tileType);
             } else {

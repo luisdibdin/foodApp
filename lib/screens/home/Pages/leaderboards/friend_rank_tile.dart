@@ -21,7 +21,7 @@ class FriendRankTile extends StatelessWidget {
           fontFamily: 'Open Sans',
           fontWeight: FontWeight.w500,
         )),
-        subtitle: Text((((friend.weekScore ?? 0)/(friend.weekTotal ?? 1))*100).toStringAsFixed(0) + '%'),
+        subtitle: Text((((friend?.weekScore ?? 0)/(friend?.weekTotal ?? 1))*100).toStringAsFixed(0) + '%'),
       );
     } else {
       return ListTile(

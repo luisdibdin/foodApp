@@ -5,6 +5,18 @@ import 'package:food_app/screens/authenticate/register.dart';
 import 'package:food_app/services/auth.dart';
 import 'package:food_app/services/user_controller.dart';
 
+class EmailFieldValidator {
+  static String validate(String value) {
+    return value.isEmpty ? 'Email can\'t be empty' : null;
+  }
+}
+
+class PasswordFieldValidator {
+  static String validate(String value) {
+    return value.isEmpty ? 'Password can\'t be empty' : null;
+  }
+}
+
 class SignIn extends StatefulWidget {
 
   final Function toggleView;
@@ -129,7 +141,7 @@ class _SignInState extends State<SignIn> {
               prefixIcon: new Icon(Icons.email),
               hintText: 'Email',
           ),
-          validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+          validator: EmailFieldValidator.validate,
           onChanged: (value) {
             setState(() => email = value.trim());
           }
@@ -161,7 +173,7 @@ class _SignInState extends State<SignIn> {
               child: Icon(
                 _showPassword ? Icons.visibility : Icons.visibility_off,),
               )),
-        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+        validator: PasswordFieldValidator.validate,
         onChanged: (value) {
           setState(() => password = value);
         }

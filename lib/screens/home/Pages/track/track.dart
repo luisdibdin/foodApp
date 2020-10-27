@@ -231,8 +231,8 @@ class _TrackState extends State<Track> {
       color: Colors.white,
       onPressed: () async {
         dynamic result = await _scan.barcodeScan();
-        newResult = result;
         setState(() {
+          newResult = result;
           productName = newResult.productName;
         });
         _showFoodToAdd(context);
@@ -244,23 +244,30 @@ class _TrackState extends State<Track> {
     return showDialog(context: context, builder: (context) {
       return AlertDialog(
         title: Text(productName),
+        content: _showAmountHad(),
         actions: <Widget>[
           FlatButton(
             onPressed: () => Navigator.pop(context), // passing false
             child: Text('Cancel'),
           ),
           FlatButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              showDialog(context: context, builder: (context){
-                return QuestionAlert(value: newResult.nutriments.energyKcal100g * servingSize/100);
+              await showDialog(context: context, builder: (context){
+                List<List> questionArray = [
+                  [newResult.nutriments.energyKcal100g * servingSize/100, 'many calories are', ''],
+                  [newResult.nutriments.fat * servingSize/100, 'much fat is', 'g'],
+                  [newResult.nutriments.proteins * servingSize/100, 'much protein is', 'g'],
+                  [newResult.nutriments.carbohydrates * servingSize/100, 'much carbohydrate is', 'g']
+                ];
+                questionArray.shuffle();
+                return QuestionAlert(value: questionArray[0]);
               });
               _scan.storeProduct(newResult, servingSize, dropdownValue);
             },
             child: Text('Ok'),
           ),
         ],
-        content: _showAmountHad(),
       );
     });
   }
