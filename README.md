@@ -24,4 +24,4 @@ flutter run
 
 ## Write Up
 
-I wrote a little article talking a little bit more in depth about this project on [my website](https://wwww.luisdibdin.uk/projects/diet-tracker/).
+I wrote a short article talking a little bit more in depth about this project on [my website](https://wwww.luisdibdin.uk/projects/diet-tracker/).
