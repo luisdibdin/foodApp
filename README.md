@@ -11,9 +11,17 @@ Back-end built with Firebase.
 
 2. Clone to local
 
-> $ git clone https://github.com/Dibbsters/foodApp
-> cd foodApp/
+```
+$ git clone https://github.com/Dibbsters/foodApp
+cd foodApp/
+```
 
 3. Run the app
 
-> flutter run
+```
+flutter run
+```
+
+## Write Up
+
+I wrote a little article talking a little bit more in depth about this project on [my website](https://wwww.luisdibdin.uk/projects/food-app).
